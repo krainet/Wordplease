@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block section %}
+    <h1 class="well">Todos los Blogs</h1>
+    {% if blog_list|length > 0 %}
+        <h4>Últimos blogs creados.</h4>
+        {% include 'blogs/blogs_loop.html' %}
+    {% else %}
+        <h2>No hay blogs</h2>
+    {% endif %}
+{% endblock %}

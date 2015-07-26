@@ -1,0 +1,23 @@
+<div class="container-fluid">
+{% for blog in blog_list %}
+<div class="row well">
+    <article>
+        <div class="col-md-2">
+            <img src="{{blog.image_url}}" class="img-rounded img-responsive img_post">
+        </div>
+        <div class="col-md-8">
+            <h3><span class="text-capitalize"><strong>{{blog.title}}</strong></span></h3>
+            <h4><small>{{blog.short_description}}</small></h4>
+            <p>
+                body
+            </p>
+        </div>
+        <div class="col-md-2">
+            <h4><small><strong>Owner:</strong> {{blog.owner}}</small></h4>
+            <h5><small><strong>Creation date:</strong> {{blog.created_at|date:"d/M/Y"|lower}}</small></h5>
+            <h5><small><strong>Last Update:</strong> {{blog.modified_at|date:"d/M/Y"|lower}}</small></h5>
+        </div>
+    </article>
+</div>
+{% endfor %}
+</div>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block section %}
+    <h1 class="well">Home</h1>
+    {% if post_list|length > 0 %}
+        <h4>Últimos posts publicadas.</h4>
+        {% include 'blogs/posts_loop.html' %}
+    {% else %}
+        <h2>No hay posts ahora mismo</h2>
+    {% endif %}
+{% endblock %}
