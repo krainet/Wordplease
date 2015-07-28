@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} New Photo {% endblock %}
+
+{% block section %}
+
+{% if success_message %}<span style="color:green">{{success_message|safe}}</span>{% endif %}
+
+<div class="container text-center">
+    <div class="row-fluid">
+        <div class="col-md-12 text-left">
+            <h1 class="well">Crear un Post!</h1>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                {{form.as_table}}
+                </table>
+                <p>&nbsp;</p>
+                <p class="">
+                    <a href="{% url 'blogs_home' %}"><button class="btn btn-info" type="button"><i class="fa fa-home"></i> Go Home</button></a>&nbsp;&nbsp;<button class="btn btn-success" type="submit"><i class="fa fa-newspaper-o"></i> Save Post!</button>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

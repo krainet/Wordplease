@@ -1,27 +1,25 @@
 # -*- coding: utf-8 -*-
-from blogs.api import PostListAPI, PostDetailAPI, BlogListAPI, BlogDetailAPI
-from blogs.views import HomeView, BlogListView, PostsDetailView, PostsUserView, PostCreateView, BlogUserView
+from blogs.api import BlogListAPI, BlogDetailAPI
+from posts.api import PostListAPI, PostDetailAPI
+from blogs.views import HomeView, BlogListView, BlogUserView, PostCreateView
+from posts.views import PostsUserView, PostsDetailView
 from django.conf.urls import include, url
 from django.contrib import admin
 from users.api import UserDetailAPI, UserListAPI
 from users.views import LoginView, LogoutView, SignupView
 
 
-
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-
-
-
-    # Test URL
-    url(r'^testurl$', 'blogs.views.prueba', name='blogs_prueba'),
 
     # Base URL (home)
     url(r'^$', HomeView.as_view(), name='blogs_home'),
 
-    # Blogs & Posts
+    # Blogs
     url(r'^blogs$', BlogListView.as_view(), name='blogs_list'),
     url(r'blogs/(?P<username>[-\w]+)/$', BlogUserView.as_view(), name='user_blogs'),
+
+    # Posts
     url(r'posts/(?P<username>[-\w]+)/$', PostsUserView.as_view(), name='user_posts'),
     url(r'posts/(?P<username>[-\w]+)/(?P<pk>[0-9]+)$', PostsDetailView.as_view(), name='post_detail'),
 

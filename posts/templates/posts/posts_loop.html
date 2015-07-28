@@ -1,0 +1,36 @@
+<div class="container-fluid">
+{% for post in post_list %}
+<div class="row well">
+    <article>
+        <div class="col-md-2" style="text-align: center;">
+            <a href="{% url 'post_detail' post.owner post.pk %}">
+                <img src="{{post.image_url}}" class="img-rounded img-responsive img_post">
+            </a>
+        </div>
+        <div class="col-md-8">
+            <h3><span class="label label-primary">{{post.title}}</span></h3>
+            <h4><span class="label label-default">{{post.short_description}}</span></h4>
+            <p>
+                {{post.body}}
+            </p>
+        </div>
+        <div class="col-md-2 well-lg" style="border: 1px dotted gray;">
+            <h4><small><strong>Owner:</strong> {{post.owner}}</small></h4>
+            <h5><small><strong>Creation date:</strong> {{post.created_at|date:"d/M/Y"|lower}}</small></h5>
+            <h5><small><strong>Last Update:</strong> {{post.modified_at|date:"d/M/Y"|lower}}</small></h5>
+            <h5><small>
+                <strong>Categories:</strong>
+                <p></p>
+                <ul>
+                    {% for category in post.categories.all %}
+                    <li>
+                        {{category.title}}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </small></h5>
+        </div>
+    </article>
+</div>
+{% endfor %}
+</div>

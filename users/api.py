@@ -10,19 +10,20 @@ from users.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
+from rest_framework.pagination import PageNumberPagination
 
 
 class UserListAPI(GenericAPIView):
 
     # serializer_class = UserSerializer
     permission_classes = (UserPermission,)
+    pagination_class = PageNumberPagination
 
     def get(self, req):
         users = User.objects.all()
-        self.paginate_queryset(users)  # fuerzo un queryset paginado
+        self.paginate_queryset(users)  # pagino el resultado
         serializer = UserSerializer(users, many=True)
-        serialized_users = serializer.data  # en data van los datos...
-        return self.get_paginated_response(Response(serialized_users))  #construye respuesta paginada
+        return self.get_paginated_response(serializer.data)  # devuelvo una respuesta paginada
 
     def post(self, req):
         serializer = UserSerializer(data=req.data)

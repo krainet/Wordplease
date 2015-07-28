@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block section %}
+    <h1 class="well">Post Detail</h1>
+    {% if post_list|length > 0 %}
+        <!--<h5>{{post_list.0.title}}</h5>-->
+        {% include 'blogs/posts_loop.html' %}
+    {% else %}
+        <h2>No hay posts ahora mismo</h2>
+    {% endif %}
+{% endblock %}

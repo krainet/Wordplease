@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'hadock'
 from django import forms
-from blogs.models import Post, Blog
-
-
-class PostCreateForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        exclude = ['owner']
+from blogs.models import Blog
 
 
 class BlogCreateForm(forms.ModelForm):
