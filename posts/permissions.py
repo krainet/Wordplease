@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 __author__ = 'hadock'
 from rest_framework.permissions import BasePermission
 
-class UserPermission(BasePermission):
+class PostPermission(BasePermission):
     def has_permission(self, request, view):
         """
         Define si el user autenticado en request.user tiene permiso para realizar una accion
@@ -13,9 +12,11 @@ class UserPermission(BasePermission):
         :return:
         """
 
-        if request.user.is_superuser:
+        if view.action == 'create':
             return True
-        elif view.action in ['retrieve', 'update', 'destroy', 'create']:
+        elif request.user.is_superuser:
+            return True
+        elif view.action in ['retrieve', 'update', 'destroy']:
             return True
         else:
             # Bloqueo acceso a /users/ si no es superadmin
