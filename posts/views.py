@@ -81,7 +81,7 @@ class PostCreateView(View):
 class PostQuerySet(object):
     def get_post_queryset(self, req):
         if not req.user.is_authenticated():
-            posts = Post.objects.filter(state=PUBLISHED).order_by('-created_at')
+            posts = Post.objects.filter(status=PUBLISHED).order_by('-created_at')
         elif req.user.is_superuser:  # es super admin
             posts = Post.objects.all()
         else:
