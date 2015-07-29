@@ -28,6 +28,7 @@ class BlogListView(View):
         }
         return render(req, 'blogs/blogs_list.html', context)
 
+
 class BlogUserView(View):
     def get(self, req, username):
         blogs = Blog.objects.filter(owner__username=username)
@@ -64,7 +65,7 @@ class PostCreateView(View):
     @method_decorator(login_required())
     def get(self, req):
         """
-        Muestra un form para crear una foto y la crea si la peticion es POST
+        Muestra un form para crear un post y lo crea si la peticion es POST
         :param req: HttpRequest
         :return: HttpResponse
         """
@@ -79,7 +80,7 @@ class PostCreateView(View):
     @method_decorator(login_required())
     def post(self, req):
         """
-        Muestra un form para crear una foto y la crea si la peticion es POST
+        Muestra un form para crear un post y lo crea si la peticion es POST
         :param req: HttpRequest
         :return: HttpResponse
         """
@@ -107,23 +108,10 @@ class PostCreateView(View):
         return render(req, 'blogs/new_post.html', context)
 
 
-# query sets
-class PostQuerySet(object):
-    def get_post_queryset(self, req):
-        if not req.user.is_authenticated():
-            posts = Post.objects.filter(state=PUBLISHED).order_by('-created_at')
-        elif req.user.is_superuser:  # es super admin
-            posts = Post.objects.all()
-        else:
-            posts = Post.objects.filter(Q(owner=req.user) | Q(state=PUBLISHED))
-
-        return posts
-
-
 class BlogQuerySet(object):
     def get_blog_queryset(self, req):
         if not req.user.is_authenticated():
-            blogs = Blog.objects.filter(state=ACTIVE).order_by('-created_at')
+            blogs = Blog.objects.filter(status=ACTIVE).order_by('-created_at')
         elif req.user.is_superuser:  # es super admin
             blogs = Blog.objects.all()
         else:
@@ -132,6 +120,3 @@ class BlogQuerySet(object):
         return blogs
 
 
-def prueba(req):
-    context = dict(myvar='Hola', myvar2='Mundo')
-    return render(req, 'blogs/testurl.html', context)

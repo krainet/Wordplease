@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
 from blogs.views import PostCreateView
-from posts.api import PostViewSet
 from posts.views import PostsUserView, PostsDetailView
 from django.conf.urls import include, url
-from rest_framework.routers import DefaultRouter
 
-
-# Router de rest framework
-router = DefaultRouter()
-
-# registro ruta post
-router.register('api/1.0/post', PostViewSet)
 
 urlpatterns = [
     # Posts
@@ -19,7 +11,4 @@ urlpatterns = [
 
     # Post Create
     url(r'^new-post$', PostCreateView.as_view(), name='post_create'),
-
-    # urls api posts -> con viewSet y router
-    url(r'', include(router.urls)),  # include de las url's router
 ]
