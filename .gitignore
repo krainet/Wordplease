@@ -78,3 +78,4 @@ pip-selfcheck.json
 *.pyc
 
 
+*.sqlite3
