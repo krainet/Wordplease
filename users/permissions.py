@@ -13,14 +13,11 @@ class UserPermission(BasePermission):
         :return:
         """
 
-        #  OJO::: Importamos aqui para evitar dependencia cíclica.
-        from users.api import UserDetailAPI
-
-        if request.method == 'POST':
+        if view.action == 'create':
             return True
         elif request.user.is_superuser:
             return True
-        elif isinstance(view, UserDetailAPI):  # isInstance devuelve true si view es objeto de UserDetailAPI
+        elif view.action in ['retrieve', 'update', 'destroy']:  # isInstance devuelve true si view es objeto de UserDetailAPI
             return True
         else:
             # Bloqueo acceso a /users/ si no es superadmin
