@@ -16,7 +16,7 @@ class PostsDetailView(View):
         context = {
             'post_list': posts
         }
-        return render(req, 'blogs/post_detail.html', context)
+        return render(req, 'posts/post_detail.html', context)
 
 
 class PostsUserView(View):
@@ -44,7 +44,7 @@ class PostCreateView(View):
         context = {
             'form': form
         }
-        return render(req, 'blogs/new_post.html', context)
+        return render(req, 'posts/new_post.html', context)
 
     @method_decorator(login_required())
     def post(self, req):
@@ -74,7 +74,7 @@ class PostCreateView(View):
             'form': form,
             'success_message': success_message
         }
-        return render(req, 'blogs/new_post.html', context)
+        return render(req, 'posts/new_post.html', context)
 
 
 # query sets
