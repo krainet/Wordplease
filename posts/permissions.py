@@ -4,33 +4,19 @@ from rest_framework.permissions import BasePermission
 
 class PostPermission(BasePermission):
     def has_permission(self, request, view):
-        """
-        Define si el user autenticado en request.user tiene permiso para realizar una accion
-        ya sea (get , post , put o delete)
-        :param request:
-        :param view:
-        :return:
-        """
 
-        if view.action == 'create':
+        if request.user.is_superuser:
             return True
-        elif request.user.is_superuser:
+        elif view.action in ['retrieve', 'update', 'destroy', 'list']:
             return True
-        elif view.action in ['retrieve', 'update', 'destroy']:
+        elif view.action == 'create' and request.user.is_authenticated():
             return True
         else:
-            # Bloqueo acceso a /users/ si no es superadmin
             return False
 
     def has_object_permission(self, request, view, obj):
-        """
-        Define si el usuario autenticado (req.user) tiene permiso para realizar la accion (get post...)
-        sobre el objeto obj
-        :param request:
-        :param view:
-        :param obj:
-        :return:
-        """
-        # si es superadmin , o el usuario autenticado intenta hacer
-        # GET , PUT o DELETE sobre su mismo perfil
-        return request.user.is_superuser or request.user == obj
+
+        if view.action in ['list', 'retrieve']:
+            return True
+
+        return request.user.is_superuser or request.user == obj.owner

@@ -39,15 +39,30 @@ class BlogUserView(View):
         }
         return render(req, 'blogs/blogs_list.html', context)
 
+class BlogByIdView(View):
+    def get(self, req, username, pk):
+        blogs = Blog.objects.filter(pk=pk)
+        # posts = Post.objects.all()
+
+        context = {
+            'blog_list': blogs
+        }
+        return render(req, 'blogs/blogs_list.html', context)
+
 
 class BlogQuerySet(object):
     def get_blog_queryset(self, req):
+        username = self.request.query_params.get('username', None)
+
         if not req.user.is_authenticated():
             blogs = Blog.objects.filter(status=ACTIVE).order_by('-created_at')
         elif req.user.is_superuser:  # es super admin
-            blogs = Blog.objects.all()
+            blogs = Blog.objects.all().order_by('-created_at')
         else:
-            blogs = Blog.objects.filter(Q(owner=req.user) | Q(state=ACTIVE))
+            blogs = Blog.objects.filter(Q(owner=req.user) | Q(status=ACTIVE))
+
+        if username:
+            blogs = blogs.filter(owner__username=username)
 
         return blogs
 

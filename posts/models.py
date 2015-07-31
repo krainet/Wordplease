@@ -9,6 +9,8 @@ PUBLISHED = u'PUB'
 DELETED = u'DEL'
 ACTIVE = u'ACT'
 DISABLED = u'DIS'
+PUBLIC = u'PUB'
+PRIVATE = u'PRIV'
 
 POST_STATUS = (
     (PENDING, 'Pendiente Moderacion'),
@@ -21,6 +23,10 @@ CATEGORY_STATUS = (
     (DISABLED, u'Disabled')
 )
 
+POST_TYPE = (
+    (PUBLIC, u'Public'),
+    (PRIVATE, u'Private')
+)
 
 class Category(models.Model):
     owner = models.ForeignKey(User)
@@ -45,6 +51,7 @@ class Post(models.Model):
     body = models.TextField(blank=True, null=True, default="")
     image_url = models.URLField()
     status = models.CharField(max_length=10, choices=POST_STATUS, default=PUBLISHED)
+    post_type = models.CharField(max_length=10, choices=POST_TYPE, default=PUBLIC)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

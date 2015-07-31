@@ -79,12 +79,29 @@ class PostCreateView(View):
 
 # query sets
 class PostQuerySet(object):
+
     def get_post_queryset(self, req):
+        search_title = self.request.query_params.get('title', None)
+        search_body = self.request.query_params.get('content', None)
+        order_by = self.request.query_params.get('content', None)
+
         if not req.user.is_authenticated():
             posts = Post.objects.filter(status=PUBLISHED).order_by('-created_at')
         elif req.user.is_superuser:  # es super admin
-            posts = Post.objects.all()
+            posts = Post.objects.all().order_by('-created_at')
         else:
-            posts = Post.objects.filter(Q(owner=req.user) | Q(state=PUBLISHED))
+            posts = Post.objects.filter(Q(owner=req.user) | Q(status=PUBLISHED) | Q(blog__owner=req.user)).order_by('-created_at')
+
+        if search_title:
+            posts = posts.filter(title__icontains=search_title)
+
+        if search_body:
+            posts = posts.filter(body__icontains=search_body)
+
+        if order_by:
+            if order_by == 'desc':
+                posts = posts.order_by('-created_at')
+            else:
+                posts = posts.order_by('created_at')
 
         return posts
