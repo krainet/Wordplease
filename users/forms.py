@@ -13,7 +13,7 @@ class LoginForm(forms.Form):
 class UserCreateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password',]
 
     def __init__(self, *args, **kwargs):
         super(UserCreateForm, self).__init__(*args, **kwargs)

@@ -66,6 +66,7 @@ class SignupView(View):
         form = UserCreateForm(req.POST)
         if form.is_valid():
             new_user = form.save()
+
             form = UserCreateForm()
             success_message = u'User creado con éxito! '
         else:

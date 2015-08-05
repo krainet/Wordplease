@@ -102,7 +102,7 @@ LOGIN_URL = '/login'
 
 # REST FRAMEWORK
 REST_FRAMEWORK = {
-    'PAGINATE_BY': 5,  # 5 items por página
+    'PAGINATE_BY': 10,  # 5 items por página
     'PAGINATE_BY_PARAM': 'page_size',  # parámetro GET para definir el número de elementos por página
     'MAX_PAGINATE_BY': 10,  # máximo número de elementos por página,
 }
