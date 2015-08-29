@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+from blogs.models import Blog
 from django.contrib.auth import logout as django_logout, authenticate, login as django_login
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from users.forms import LoginForm, UserCreateForm
 from django.views.generic import View
@@ -62,13 +64,22 @@ class SignupView(View):
     def post(self, req):
         error_messages = []
         success_message = ''
-
+        user = User()
         form = UserCreateForm(req.POST)
         if form.is_valid():
             new_user = form.save()
-
+            new_user.set_password(new_user.password)
+            new_user.save()
             form = UserCreateForm()
             success_message = u'User creado con éxito! '
+
+            # blog for this user.
+            blog = Blog(owner=new_user)
+            # blog.name = form.data.get('blog_name')
+            # blog.name = 'Tu nuevo Blog'
+            # blog.short_description = form.data.get('blog_description')
+            blog.short_description = 'Tu nuevo Blog'
+            blog.save()
         else:
             error_messages.append(u'Formulario incompleto.')
 
@@ -78,7 +89,6 @@ class SignupView(View):
             'error_messages': error_messages
         }
         return render(req, 'users/signup.html', context)
-
 
 
 def prueba(req):
