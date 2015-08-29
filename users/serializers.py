@@ -21,7 +21,8 @@ class UserSerializer(serializers.Serializer):
         :return:
         """
         instance = User()
-        return self.update(instance,validated_data)
+
+        return self.update(instance, validated_data)
 
     def update(self, instance, validated_data):
         """

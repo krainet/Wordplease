@@ -8,7 +8,7 @@ from blogs.models import Blog
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('owner', 'title', 'status')
     list_filter = ('owner', 'status')
-    search_fields = ('title')
+    search_fields = ('title',)
 
     def owner_name(self, obj):
         return obj.owner.first_name + u' ' + obj.owner.last_name

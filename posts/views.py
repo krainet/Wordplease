@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from blogs.models import Blog
 from posts.forms import PostCreateForm
-from posts.models import Post, PUBLISHED
+from posts.models import Post, PUBLISHED, PUBLIC
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -49,7 +50,7 @@ class PostCreateView(View):
     @method_decorator(login_required())
     def post(self, req):
         """
-        Muestra un form para crear una foto y la crea si la peticion es POST
+        Muestra un form para crear un post y lo crea si la peticion es POST
         :param req: HttpRequest
         :return: HttpResponse
         """
@@ -59,9 +60,11 @@ class PostCreateView(View):
         # Creamos owner y se lo pasamos al form con un objeto pre-establecido
         post_with_owner = Post()
         post_with_owner.owner = req.user
+        post_with_owner.blog = Blog.objects.filter(owner=req.user)[0]
 
         form = PostCreateForm(req.POST, instance=post_with_owner)
         if form.is_valid():
+
             new_post = form.save()
             form = PostCreateForm()
             success_message = u'Post guardado con éxito! '
@@ -86,12 +89,13 @@ class PostQuerySet(object):
         order_by = self.request.query_params.get('content', None)
 
         if not req.user.is_authenticated():
-            posts = Post.objects.filter(status=PUBLISHED).order_by('-created_at')
+            posts = Post.objects.filter(status=PUBLISHED, post_type=PUBLIC).order_by('-created_at')
         elif req.user.is_superuser:  # es super admin
             posts = Post.objects.all().order_by('-created_at')
         else:
             posts = Post.objects.filter(Q(owner=req.user) | Q(status=PUBLISHED) | Q(blog__owner=req.user)).order_by('-created_at')
 
+        # filters
         if search_title:
             posts = posts.filter(title__icontains=search_title)
 
@@ -99,9 +103,9 @@ class PostQuerySet(object):
             posts = posts.filter(body__icontains=search_body)
 
         if order_by:
-            if order_by == 'desc':
-                posts = posts.order_by('-created_at')
-            else:
+            if order_by == 'asc':
                 posts = posts.order_by('created_at')
+            else:
+                posts = posts.order_by('-created_at')
 
         return posts
