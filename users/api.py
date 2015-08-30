@@ -13,7 +13,8 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class UserViewSet(GenericViewSet):
-    # serializer_class = UserSerializer
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
     permission_classes = (UserPermission,)
     pagination_class = PageNumberPagination
 
@@ -24,7 +25,7 @@ class UserViewSet(GenericViewSet):
         return self.get_paginated_response(serializer.data)  # devuelvo una respuesta paginada
 
     def create(self, req):
-        serializer = UserSerializer(data=req.data)
+        serializer = UserSerializer(data=req.data, context={'request': req})
         if serializer.is_valid():
             new_user = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

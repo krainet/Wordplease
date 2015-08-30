@@ -17,6 +17,22 @@
                 <hr>
                 <table class="table table-bordered">
                     {{ form.as_table }}
+                    <tr>
+                        <th>
+                            <label for="blog_name">Blog Name:</label>
+                        </th>
+                        <td>
+                            <input id="blog_name" maxlength="128" name="blog_name" type="text" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="blog_sdescription">Blog Short Desc:</label>
+                        </th>
+                        <td>
+                            <input id="blog_sdescription" maxlength="128" name="blog_sdescription" type="text" required>
+                        </td>
+                    </tr>
                 </table>
                 <p class="">
                     <a href="{% url 'blogs_home' %}"><button class="btn btn-info" type="button"><i class="fa fa-home"></i> Go Home</button></a>&nbsp;&nbsp;<button class="btn btn-success" type="submit"><i class="fa fa-user"></i> Register!</button>

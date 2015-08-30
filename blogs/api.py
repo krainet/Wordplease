@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from posts.permissions import PostPermission
+
 __author__ = 'hadock'
 from blogs.serializers import BlogSerializer, BlogListSerializer
 from blogs.views import BlogQuerySet
@@ -8,7 +10,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class BlogViewSet(BlogQuerySet, ModelViewSet):
     queryset = Blog.objects.all()
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (PostPermission,)
 
     def get_serializer_class(self):
         if self.action == 'list':

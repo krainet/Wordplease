@@ -75,10 +75,15 @@ class SignupView(View):
 
             # blog for this user.
             blog = Blog(owner=new_user)
-            # blog.name = form.data.get('blog_name')
-            # blog.name = 'Tu nuevo Blog'
-            # blog.short_description = form.data.get('blog_description')
-            blog.short_description = 'Tu nuevo Blog'
+            if not req.POST.get('blog_name'):
+                blog.name = 'Blog de ' + new_user.username
+            else:
+                blog.name = req.POST.get('blog_name')
+
+            if not req.POST.get('blog_sdescription'):
+                blog.short_description = 'Bienvenido al blog de ' + new_user.username
+            else:
+                blog.short_description = req.POST.get('blog_sdescription')
             blog.save()
         else:
             error_messages.append(u'Formulario incompleto.')

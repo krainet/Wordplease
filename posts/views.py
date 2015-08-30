@@ -12,7 +12,10 @@ from django.db.models import Q
 
 class PostsDetailView(View):
     def get(self, req, username, pk):
-        posts = Post.objects.filter(pk=pk)
+        if req.user.is_authenticated():
+            posts = Post.objects.filter(pk=pk, owner=req.user)
+        else:
+            posts = Post.objects.filter(pk=pk, post_type=PUBLIC)
 
         context = {
             'post_list': posts
@@ -22,7 +25,14 @@ class PostsDetailView(View):
 
 class PostsUserView(View):
     def get(self, req, username):
-        posts = Post.objects.filter(owner__username=username)
+        if req.user.is_authenticated():
+            if username == req.user.username:
+                posts = Post.objects.filter(owner__username=username)
+            else:
+                posts = Post.objects.filter(owner__username=username, post_type=PUBLIC)
+        else:
+            posts = Post.objects.filter(owner__username=username, post_type=PUBLIC)
+
         # posts = Post.objects.all()
 
         context = {

@@ -3,7 +3,7 @@
 <div class="row well">
     <article>
         <div class="col-md-2">
-            <img src="{{blog.image_url}}" class="img-rounded img-responsive img_post">
+            <a href="{% url 'user_posts' blog.owner.username %}"><img src="{{blog.image_url}}" class="img-rounded img-responsive img_post"></a>
         </div>
         <div class="col-md-8">
             <h3><span class="text-capitalize"><strong>{{blog.title}}</strong></span></h3>

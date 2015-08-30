@@ -96,6 +96,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+PH_IMAGES = 'http://lorempixel.com/500/500/sports/ExampleImage/'
 
 # LOGIN URL
 LOGIN_URL = '/login'

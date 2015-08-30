@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 from blogs.models import PUBLISHED, Blog, ACTIVE
-from posts.forms import PostCreateForm
-from posts.models import Post
-from django.contrib.auth.decorators import login_required
+from posts.models import Post, PUBLIC
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.views.generic import View
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 
 
 class HomeView(View):
     def get(self, req):
-        posts = Post.objects.filter(status=PUBLISHED).order_by('-created_at')
+        posts = Post.objects.filter(status=PUBLISHED, post_type=PUBLIC).order_by('-created_at')
         context = {
             'post_list': posts
         }

@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %} New Photo {% endblock %}
+{% block title %} New Post {% endblock %}
 
 {% block section %}
 
-{% if success_message %}<span style="color:green">{{success_message|safe}}</span>{% endif %}
+{% if success_message %}
+    <p>
+        <div class="alert alert-success" role="alert">{{success_message|safe}}</div>
+    </p>
+{% endif %}
 
 <div class="container text-center">
     <div class="row-fluid">
