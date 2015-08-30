@@ -40,6 +40,17 @@ class PostsUserView(View):
         }
         return render(req, 'blogs/home.html', context)
 
+class PostsUserViewAll(View):
+    def get(self, req):
+
+        posts = Post.objects.filter(post_type=PUBLIC)
+
+        # posts = Post.objects.all()
+
+        context = {
+            'post_list': posts
+        }
+        return render(req, 'blogs/home.html', context)
 
 class PostCreateView(View):
     @method_decorator(login_required())
