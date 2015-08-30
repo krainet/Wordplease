@@ -1,5 +1,17 @@
 # Wordplease
 Python/Django Blog 
 
-Test User : admin 
-Password : 123456
+Admin User : admin 
+Password : admin
+
+Test user: ramon
+Password: ramon
+
+# Endpoints API
+/user/[:id]
+
+/post/[:username]/[:id] => posts by username & id
+
+/blog/[:username]/[:id] => blogs by username or id (excluding)
+
+
